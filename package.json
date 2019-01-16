@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "osm-pbf-parser": "^2.3.0"
+    "earcut": "^2.1.4",
+    "osm-pbf-parser": "^2.3.0",
+    "osm-polygon-features": "^0.9.2"
   }
 }

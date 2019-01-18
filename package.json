@@ -5,13 +5,15 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate": "node main.js kharkiv_ukraine.osm.pbf > mesh.json"
+    "generate-mesh": "node main.js kharkiv_ukraine.osm.pbf > mesh.json",
+    "generate-tmesh": "node trianglestrip.js kharkiv_ukraine.osm.pbf > tmesh.json"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "earcut": "^2.1.4",
     "osm-pbf-parser": "^2.3.0",
-    "osm-polygon-features": "^0.9.2"
+    "osm-polygon-features": "^0.9.2",
+    "polyline-normals": "^2.0.2"
   }
 }

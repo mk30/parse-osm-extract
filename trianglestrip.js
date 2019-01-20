@@ -30,7 +30,9 @@ function write (items, enc, next) {
       })
       waypositions.push(nodes[item.refs[item.refs.length - 1]])
       allpositions.push(nodes[item.refs[item.refs.length - 1]])
+      //console.log(allpositions)
       waynorms = getNormals(waypositions)
+      waynormsdoubled.push(waynorms[0][0])
       waynorms.forEach(function (norm) {
         waynormsdoubled.push(norm[0])
         waynormsdoubled.push([-1*norm[0][0], -1*norm[0][1]])

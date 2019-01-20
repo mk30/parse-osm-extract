@@ -6,6 +6,7 @@ var getNormals = require('polyline-normals')
 var osm = parseOSM()
 var mesh = { positions: [], normals: [] }
 var nodes = {}
+var allpositions = []
 
 fs.createReadStream(process.argv[2])
   .pipe(osm)
@@ -16,18 +17,16 @@ function write (items, enc, next) {
     if (item.type === 'node') {
       nodes[item.id] = [item.lon, item.lat]
     }
-    var waypositions = []
     var waynorms = []
+    var waypositions = []
     var waynormsdoubled = []
     if (item.type === 'way') {
       waypositions.push(nodes[item.refs[0]])
       item.refs.forEach(function (itemRef) {
         waypositions.push(nodes[itemRef])
+        waypositions.push(nodes[itemRef])
       })
       waypositions.push(nodes[item.refs[item.refs.length - 1]])
-      waypositions.forEach(function (pos) {
-        mesh.positions.push(pos)
-      })
       waynorms = getNormals(waypositions)
       waynormsdoubled.push(waynorms[0][0])
       waynorms.forEach(function (norm) {
@@ -37,6 +36,9 @@ function write (items, enc, next) {
       waynormsdoubled.push(waynormsdoubled[waynormsdoubled.length - 1])
       waynormsdoubled.forEach(function (dnorm) {
         mesh.normals.push(dnorm)
+      })
+      waypositions.forEach(function (pos) {
+        mesh.positions.push(pos)
       })
     }
   })

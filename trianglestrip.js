@@ -2,19 +2,29 @@ var fs = require('fs')
 var through = require('through2')
 var parseOSM = require('osm-pbf-parser')
 var getNormals = require('polyline-normals')
+var features = require('./lib/features.json')
  
 var osm = parseOSM()
-var mesh = { positions: [], normals: [] }
+var mesh = { positions: [], normals: [], attributes: [] }
 var nodes = {}
 
 fs.createReadStream(process.argv[2])
   .pipe(osm)
   .pipe(through.obj(write, end))
 
+
 function write (items, enc, next) {
   items.forEach(function (item) {
     if (item.type === 'node') {
       nodes[item.id] = [item.lon, item.lat]
+    }
+    if (item.type === 'node' && Object.keys(item.tags).length > 0) {
+      Object.keys(item.tags).forEach(function (key) {
+        if (features[key + '.' + Object.values(item.tags)]) {
+          console.log(features[key + '.' + Object.values(item.tags)])
+        }
+        else if (features[key + '.other']) console.log(features[key + '.other'])
+      })
     }
     var allpositions = []
     var waynorms = []
